@@ -1,0 +1,36 @@
+﻿@page "/"
+@using BlazorCssPlayground.Models
+
+<main class="primary">
+    <section class="controls">
+        <button class="btn btn-primary" type="button" @onclick="() => Reset()">Reset</button>
+    </section>
+    <EditForm Model="@Model">
+        <section class="param-input">
+            <label class="textarea-half" for="htmlInput">HTML</label>
+            <label class="textarea-half" for="cssInput">CSS</label>
+            <InputTextArea id="htmlInput" class="textarea-half" rows="12" @bind-Value="Model.HtmlValue" />
+            <InputTextArea id="cssInput" class="textarea-half" rows="12" @bind-Value="Model.CssValue" />
+        </section>
+    </EditForm>
+    <hr />
+    <section class="display-output">
+        <style scoped>
+            @Model.CssValue
+        </style>
+        <div class="display-payload display-container">
+            @GetHtml()
+        </div>
+    </section>
+</main>
+
+@code {
+    public PlaygroundModel Model { get; set; } = new();
+
+    public MarkupString GetHtml() => new MarkupString(Model.HtmlValue);
+
+    public void Reset()
+    {
+        Model = new();
+    }
+}
